@@ -1,0 +1,4 @@
+build/kvg/
+build/NotoSansJP.ttf
+__pycache__/
+.DS_Store
