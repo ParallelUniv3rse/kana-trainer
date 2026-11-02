@@ -24,6 +24,7 @@
   --ink-lip: #121A36;
   --radius-s: 10px;
   --radius-m: 16px;
+  --status-bar: #23305A;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -57,6 +58,12 @@ body {
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
 }
+/* Installed on iOS the page runs edge to edge under a translucent status bar,
+   whose text is always white, so give it a solid ink backing. Zero height in a browser tab. */
+body::before {
+  content: ''; position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+  height: env(safe-area-inset-top); background: var(--status-bar);
+}
 button, input { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a { color: inherit; }
@@ -72,7 +79,7 @@ p { margin: 0; }
 
 #app { max-width: 520px; margin: 0 auto; min-height: 100dvh; }
 .screen {
-  padding: max(16px, env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
+  padding: calc(16px + env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
 }
 
 /* ---------- buttons ---------- */
@@ -207,7 +214,7 @@ p { margin: 0; }
 .chip { min-width: 46px; height: 46px; padding: 0 8px; display: grid; place-items: center; font-size: 1.4rem; border: 2px solid var(--line); border-radius: 10px; }
 
 /* ---------- free drill ---------- */
-.sheet { max-height: 92dvh; overflow-y: auto; overscroll-behavior: contain; }
+.sheet { max-height: calc(100dvh - env(safe-area-inset-top) - 24px); overflow-y: auto; overscroll-behavior: contain; }
 .drill .seg { margin-top: 16px; }
 .drill-quick { display: flex; gap: 18px; margin-top: 8px; font-size: .92rem; }
 .drill-unit { margin-top: 14px; }
@@ -335,7 +342,7 @@ p { margin: 0; }
 .foot.bad .btn.primary { background: var(--bad); color: var(--surface); box-shadow: 0 4px 0 color-mix(in srgb, var(--bad) 60%, black); }
 
 /* ---------- results ---------- */
-.finish { display: flex; flex-direction: column; gap: 18px; padding-top: max(48px, env(safe-area-inset-top)); }
+.finish { display: flex; flex-direction: column; gap: 18px; padding-top: calc(48px + env(safe-area-inset-top)); }
 .finish h1 { font-size: 1.8rem; text-align: center; }
 .tally { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .tally div { border: 2px solid var(--line); background: var(--surface); border-radius: 14px; padding: 12px 8px; text-align: center; display: flex; flex-direction: column; }

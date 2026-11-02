@@ -150,23 +150,26 @@ function learnScreen() {
   const due = dueCount(st.items);
   const learnedAny = Object.values(st.items).some(isLearned);
   const mistakes = practiceIds(st.items, { mistakesOnly: true }).length;
-  if (learnedAny) {
-    const p = h(`<section class="practice">
-      <div><h2>${due ? `${due} character${due === 1 ? '' : 's'} ready for review` : 'Nothing due right now'}</h2>
-      <p>${due ? 'Reviewing on time is what makes them stick.' : 'You can still practise your weakest characters.'}</p></div>
-      <div class="row">
-        <button class="btn ${due ? 'primary' : 'secondary'}" data-act="practice">${due ? 'Review now' : 'Practise'}</button>
-        ${mistakes ? '<button class="btn secondary" data-act="mistakes">Practise mistakes</button>' : ''}
-        <button class="btn secondary" data-act="drill">Free drill</button>
-      </div></section>`);
-    p.addEventListener('click', (e) => {
-      const b = e.target.closest('button[data-act]');
-      if (!b) return;
-      if (b.dataset.act === 'drill') drillSheet();
-      else startPractice(b.dataset.act === 'mistakes');
-    });
-    screen.appendChild(p);
-  }
+  const p = learnedAny
+    ? h(`<section class="practice">
+    <div><h2>${due ? `${due} character${due === 1 ? '' : 's'} ready for review` : 'Nothing due right now'}</h2>
+    <p>${due ? 'Reviewing on time is what makes them stick.' : 'You can still practise your weakest characters.'}</p></div>
+    <div class="row">
+      <button class="btn ${due ? 'primary' : 'secondary'}" data-act="practice">${due ? 'Review now' : 'Practise'}</button>
+      ${mistakes ? '<button class="btn secondary" data-act="mistakes">Practise mistakes</button>' : ''}
+      <button class="btn secondary" data-act="drill">Free drill</button>
+    </div></section>`)
+    : h(`<section class="practice">
+    <div><h2>Already know some kana?</h2>
+    <p>Drill any characters you like, without following the lessons.</p></div>
+    <div class="row"><button class="btn secondary" data-act="drill">Free drill</button></div></section>`);
+  p.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-act]');
+    if (!b) return;
+    if (b.dataset.act === 'drill') drillSheet();
+    else startPractice(b.dataset.act === 'mistakes');
+  });
+  screen.appendChild(p);
 
   const ls = lessonsOf(script);
   const front = frontier(script);
