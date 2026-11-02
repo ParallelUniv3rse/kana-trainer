@@ -1,6 +1,6 @@
 // Stores the whole app on the device so it runs with no connection.
 // Bump VERSION whenever a file changes, so phones pick up the update.
-const VERSION = 'kana-v4';
+const VERSION = 'kana-v5';
 const FILES = [
   './',
   './index.html',
@@ -21,7 +21,10 @@ const FILES = [
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
+  // Bypass the HTTP cache, or a new version can be stored next to stale copies
+  // of files the browser fetched minutes ago (GitHub Pages caches for 10 minutes).
+  const fresh = FILES.map((f) => new Request(f, { cache: 'reload' }));
+  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(fresh)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {

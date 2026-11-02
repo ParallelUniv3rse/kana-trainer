@@ -1,7 +1,7 @@
 import { ITEMS, UNITS } from './data/kana.js';
 import * as store from './store.js';
 import { strength, isLearned, MAX_BOX } from './srs.js';
-import { speak, hasVoice, onVoices, voicesChecked } from './speech.js';
+import { speak, stop as stopSpeaking, hasVoice, onVoices, voicesChecked } from './speech.js';
 import { buildLesson, buildReview, buildDrill, practiceIds, dueCount, checkRomaji, unitOfLesson, isSingle, shuffle } from './lesson.js';
 import { traceBoard, strokeDemo, gridSvg } from './trace.js';
 
@@ -565,6 +565,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 function next() {
+  stopSpeaking();
   session.index += 1;
   if (session.hearts <= 0) return finishSession(false);
   if (session.index >= session.queue.length) return finishSession(true);
@@ -572,7 +573,7 @@ function next() {
 }
 
 /** Record an answer, show the verdict, and queue a retry if it was wrong. */
-function answer(ex, ok, { costsHeart = true, correction = '' } = {}) {
+function answer(ex, ok, { costsHeart = true, correction = '', heard = false } = {}) {
   session.answered += 1;
   mark(ex.item, !ok);
   if (!ok) {
@@ -586,7 +587,8 @@ function answer(ex, ok, { costsHeart = true, correction = '' } = {}) {
     vibrate(60);
   }
   updateChrome();
-  if (ok) say(ex.item.kana);
+  // `heard`: picking the answer already played it, so don't play it twice.
+  if (ok && !heard) say(ex.item.kana);
   const praise = ['Correct', 'Nice', 'Yes', 'Well done', 'Right'][Math.floor(Math.random() * 5)];
   setFoot({
     label: 'Continue',
@@ -689,7 +691,7 @@ function pickChar(ex, stage) {
   const grid = choiceGrid(ex.options, (id) => `<span class="jp" lang="ja">${ITEMS[id].kana}</span>`, (id) => { chosen = id; say(ITEMS[id].kana); enableFoot(); });
   grid.classList.add('kana-opts');
   stage.appendChild(grid);
-  setFoot({ action: () => { lockAndReveal(grid, chosen, it.id); answer(ex, chosen === it.id); } });
+  setFoot({ action: () => { lockAndReveal(grid, chosen, it.id); answer(ex, chosen === it.id, { heard: true }); } });
 }
 
 function listen(ex, stage) {

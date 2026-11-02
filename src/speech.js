@@ -34,6 +34,10 @@ export function hasVoice() { return !!voice; }
 export function voicesChecked() { return ready || !('speechSynthesis' in window); }
 export function onVoices(fn) { listeners.add(fn); return () => listeners.delete(fn); }
 
+export function stop() {
+  try { speechSynthesis.cancel(); } catch (e) { /* ignore */ }
+}
+
 export function speak(text, { enabled = true } = {}) {
   if (!enabled || !voice) return;
   try {
