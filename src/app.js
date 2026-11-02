@@ -141,7 +141,7 @@ function learnScreen() {
 
   if (!isStandalone() && !st.ui.installHintDismissed) {
     const hint = h(`<aside class="install">
-      <p><b>To use this on a plane</b>, add it to your home screen while you're online. On iPhone: Share, then Add to Home Screen.</p>
+      <p><b>To use this on a plane</b>, add it to your home screen while you're online. On Android: Chrome menu, then Add to home screen. On iPhone: Share, then Add to Home Screen.</p>
       <button class="link" type="button">Dismiss</button></aside>`);
     hint.querySelector('button').onclick = () => { store.setUi('installHintDismissed', true); hint.remove(); };
     screen.appendChild(hint);

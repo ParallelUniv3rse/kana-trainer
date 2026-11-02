@@ -30,18 +30,18 @@ The phone needs to load it once over HTTPS. GitHub Pages is free and enough:
 
 1. Create a GitHub repo and push this folder to it.
 2. In the repo, open Settings, Pages, and set the source to the `main` branch, root folder.
-3. Open the Pages URL on your phone in Safari, tap Share, then Add to Home Screen.
+3. Open the Pages URL on your phone. On Android, use Chrome: open the menu (three dots) and tap Add to home screen, then Install. On iPhone, use Safari: tap Share, then Add to Home Screen.
 4. Open it from the home screen once while online and wait a few seconds. Settings shows "Ready" under Offline when everything is stored.
 
 Do this before the flight. After that it opens and runs in airplane mode.
 
 ## Sound
 
-Pronunciation uses the device's built-in Japanese text-to-speech voice. iPhone, iPad and Mac include one (Kyoko or O-Ren) that runs offline. If no Japanese voice is found, listening exercises are skipped and Settings says so. Check this on your phone before you fly.
+Pronunciation uses the device's built-in Japanese text-to-speech voice. iPhone, iPad and Mac include one (Kyoko or O-Ren) that runs offline. On Android it's Google's speech engine: in Settings, find Text-to-speech output, open the Google engine's settings, and download the Japanese voice so it works without a connection. If no Japanese voice is found, listening exercises are skipped and Settings says so. Check this on your phone before you fly.
 
 ## Progress
 
-Stored in `localStorage` on the device and nowhere else. Home-screen apps on iOS keep it; a plain Safari tab may lose it after weeks of not opening the site.
+Stored in `localStorage` on the device and nowhere else. Installed home-screen apps keep it; on iOS a plain Safari tab may lose it after weeks of not opening the site.
 
 ## Updating
 

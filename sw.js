@@ -1,6 +1,6 @@
 // Stores the whole app on the device so it runs with no connection.
 // Bump VERSION whenever a file changes, so phones pick up the update.
-const VERSION = 'kana-v3';
+const VERSION = 'kana-v4';
 const FILES = [
   './',
   './index.html',
